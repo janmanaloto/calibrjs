@@ -4,14 +4,18 @@ var userServices = require('../../services/UserServices.js');
 
 router.get('/', function(req, res, next) {
 	var user = new userServices();
-	promise = user.getUsers();
-	promise.success(function(docs) { 
-	  	res.json(docs); 
+	user.getUsers(function(data) {
+		res.json(data);
 	});
 });
 
-router.post('/', function(req, res){
-	console.log(req.body.name);
+router.post('/add', function(req, res, next) {
+	var user = new userServices();
+	user.addUser(req.body.username, req.body.password, req.body.email,
+		function(msg) {
+			res.json(msg);
+		}
+	);
 });
 
 module.exports = router;
