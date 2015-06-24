@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>LOGIN</title>
+	<link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/stylesheets/login.css">
+</head>
+<body>
+	<div class="main">
+		<div class="login-box">
+			<span class="logo">Calibr.js</span>
+			<form action="process/login" method="POST">
+				<span class="login-result"></span>
+				<input id="username" type="text" placeholder="username">
+				<input id="password" type="password" placeholder="password">
+				<button id="submitBtn">LOGIN</button>
+	  		</form>
+	  		<div class="details">Not a member? <a href="">Sign Up now</a> <i class="fa fa-arrow-right"></i></div>
+		</div>
+	</div>
+	<script type="text/javascript" src="/javascripts/thirdParty/jquery.min.js"></script>
+	<script type="text/javascript">
+		$('#submitBtn').on('click', function(event) {
+			event.preventDefault();
+			$(this).html('<i class="fa fa-circle-o-notch fa-spin"></i>');
+			login($("#username").val(),$("#password").val(), 
+				//SUCCESS
+				function() {
+					$(location).attr('href',"/");
+				},
+				//ERROR
+				function(data) { 
+					$('#submitBtn').html('LOGIN');
+					if(data == "Eusername") { $(".login-result").text("Wrong Username or Password"); }
+					else if(data == "Epassword") { $(".login-result").text("Invalid Password"); }
+					else { $(".login-result").text("Oops! Something went Wrong"); }
+				}
+			);
+		});
+
+		var login = function(username, password, callback, errcallback) {
+			$.ajax({
+				url: "/process/login",
+				type: "POST",
+				data: {
+					"username": username,
+					"password": password
+				},
+				success: function(data) {
+					console.log(data);
+					if(data == "success") {
+						callback();
+					}
+					else {
+						errcallback(data);
+					}
+				},
+				error: function(data) {
+					errcallback(data);
+				}
+
+			});
+		}
+	</script>
+</body>
+</html>

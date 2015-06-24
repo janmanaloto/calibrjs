@@ -4,10 +4,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var constants = require('./constants.js')
+var constants = require('./constants.js');
+var session = require('client-sessions');
 
+var LoginServices = require('./services/LoginServices');
 
-var routes = require('./routes/index');
+var routes = require('./routes/Home/index');
 var process = require('./routes/process/index');
 var users = require('./routes/User/index');
 
@@ -25,9 +27,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// SESSION SETUP
+app.use(session({
+  cookieName: 'session',
+  secret: constants.SESSION_SECRET,
+  duration: 30 * 60 * 1000,
+  activeDuration: 5 * 60 * 1000,
+}));
+
 app.use('/', routes);
 app.use('/process', process);
 app.use('/Users', users);
+
+app.use(function(req, res, next) {
+  var login = new LoginServices();
+  login.sessionStart(req,res,next);
+  next();
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
