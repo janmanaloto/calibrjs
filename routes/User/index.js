@@ -13,7 +13,7 @@ router.post('/add', function(req, res, next) {
 	var user = new userServices();
 	user.addUser(req.body.username, req.body.password, req.body.email,
 		function(msg) {
-			res.json(msg);
+			res.redirect("/login.html");
 		}
 	);
 });
