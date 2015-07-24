@@ -15,10 +15,11 @@ router.get('/', function(req, res) {
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
+    var key = res.body.key;
+    var msg = res.body.msg;
 
 
-
-	var url = "http://sandbox.api.simsimi.com/request.p?key=91e7537d-57c3-4065-887e-2b9a2b44b671&lc=en&ft=1.0&text=hi";
+	var url = "http://sandbox.api.simsimi.com/request.p?key="+key+"&lc=en&ft=1.0&text="+msg;
 	request(url, function (error, response, body) {
 	    if (!error && response.statusCode == 200) {
 	        res.send(body);
