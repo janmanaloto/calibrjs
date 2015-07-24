@@ -18,4 +18,13 @@ router.post('/add', function(req, res, next) {
 	);
 });
 
+router.post('/get', function(req, res, next) {
+	var user = new userServices();
+	user.getUsers(
+		function(msg) {
+			res.json(msg);
+		}
+	);
+});
+
 module.exports = router;
