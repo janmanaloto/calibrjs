@@ -11,7 +11,12 @@ userService.prototype.getUsers = function(callback) {
 	var users = collection.find({});
 	users.success(function(d) {
 		console.log(d);
-		callback(d);
+		var json = {
+			users: d,
+			response: "success"
+		}
+
+		callback(json);
 	});
 }
 

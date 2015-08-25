@@ -3,6 +3,15 @@ var router = express.Router();
 var userServices = require('../../services/UserServices.js');
 
 router.get('/', function(req, res, next) {
+	console.log(req.body);
+	var user = new userServices();
+	user.getUsers(function(data) {
+		res.json(data);
+	});
+});
+
+router.post('/', function(req, res, next) {
+	console.log(req.body);
 	var user = new userServices();
 	user.getUsers(function(data) {
 		res.json(data);
