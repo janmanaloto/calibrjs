@@ -4,7 +4,7 @@ html, body {
 	height: 100%;
 	background-color: #262626;
 	overflow: hidden;
-	color: white;
+	color: #999;
 	font-family: 'Open Sans', sans-serif;
 }
 #change {
