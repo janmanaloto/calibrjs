@@ -1,14 +1,21 @@
 html, body {
-	height: 100%
+	height: 100%;
+	background-color: #262626;
+	overflow: hidden;
 }
 
 .int {
 	display: table;
-	height: 100%
+	height: 100%;
+	width: 100%;
 }
 
 .cont {
 	display: table-cell;
 	vertical-align: middle;
 	text-align: center;
+}
+
+.cont img {
+	margin-top: -50px;
 }
