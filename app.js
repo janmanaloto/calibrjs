@@ -12,6 +12,7 @@ var LoginServices = require('./services/LoginServices');
 var routes = require('./routes/Home/index');
 var process = require('./routes/process/index');
 var users = require('./routes/User/index');
+var login = require('./routes/Login/index');
 var demos = require('./routes/demos/index');
 
 var app = express();
@@ -40,6 +41,7 @@ app.use('/', routes);
 app.use('/process', process);
 app.use('/Users', users);
 app.use('/demos', demos);
+app.use('/login', login);
 
 app.use(function(req, res, next) {
   var login = new LoginServices();

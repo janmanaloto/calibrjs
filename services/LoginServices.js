@@ -12,15 +12,28 @@ function LoginService() {
 LoginService.prototype.login = function(req, subusername, subpassword, callback) {
 	User.findOne({ "username": subusername }, function(err, user) {
 		if(!user) {
-			callback("Eusername");
+			json = {
+				status: "Eusername"
+			}
+			callback(json);
 		}
 		else {
 			if(sha1(subpassword) === user.password) {
 				req.session.user = user;
-				callback("success");
+				var json = {
+					status: "success",
+					username: user.username,
+					email: user.email,
+					userId: user._id,
+					userRole: user.role
+				}
+				callback(json);
 			}
 			else {
-				callback("Epassword");
+				json = {
+					status: "Epassword"
+				}
+				callback(json);
 			}
 		}
 	});
