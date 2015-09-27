@@ -4,7 +4,6 @@ var validator = require('validator');
 var sha1 = require('sha1');
 
 function userService() {
-	console.log("service 2");
 }
 
 userService.prototype.getUsers = function(callback) {
@@ -21,6 +20,9 @@ userService.prototype.getUsers = function(callback) {
 }
 
 userService.prototype.addUser = function(subusername, subpassword, subemail, callback) {
+
+	console.log("================= START userService addUser ==================")
+
 	var users;
 	email = validator.normalizeEmail(subemail);
 	valEmail = validator.isEmail(email);
@@ -28,9 +30,13 @@ userService.prototype.addUser = function(subusername, subpassword, subemail, cal
 	valPassword = validator.isLength(subpassword, 6, 30);
 
 	if(valEmail&&valUsername&&valPassword) {
-		users = collection.insert({"username": subusername, "password": sha1(subpassword), "email": email});
+		users = collection.insert({"username": subusername, "password": sha1(subpassword), "email": email, roleId: 1});
 		users.success(function(d) {
-			callback(d);
+			var response = {
+				status: "success",
+				response: d
+			};
+			callback(response);
 		}).error(function(e) {
 			callback(e);
 		});

@@ -22,12 +22,7 @@ router.post('/add', function(req, res, next) {
 	var user = new userServices();
 	user.addUser(req.body.username, req.body.password, req.body.email,
 		function(msg) {
-			var response = {
-				response: {
-					status: "success"
-				}
-			};
-			console.log(msg);
+			var response = msg;
 			console.log(response);
 			res.json(response);
 		}

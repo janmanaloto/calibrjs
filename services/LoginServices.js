@@ -10,6 +10,7 @@ function LoginService() {
 }
 
 LoginService.prototype.login = function(req, subusername, subpassword, callback) {
+	console.log("=================== Start LoginService login ===================");
 	User.findOne({ "username": subusername }, function(err, user) {
 		if(!user) {
 			json = {
@@ -25,7 +26,7 @@ LoginService.prototype.login = function(req, subusername, subpassword, callback)
 					username: user.username,
 					email: user.email,
 					userId: user._id,
-					userRole: user.role
+					roleId: user.roleId
 				}
 				callback(json);
 			}
