@@ -14,7 +14,8 @@ LoginService.prototype.login = function(req, subusername, subpassword, callback)
 	User.findOne({ "username": subusername }, function(err, user) {
 		if(!user) {
 			json = {
-				status: "Eusername"
+				status: "Eusername",
+				message: "There is an error with your login credentials"
 			}
 			callback(json);
 		}
@@ -32,7 +33,8 @@ LoginService.prototype.login = function(req, subusername, subpassword, callback)
 			}
 			else {
 				json = {
-					status: "Epassword"
+					status: "Epassword",
+					message: "Wrong Username/Password combination"
 				}
 				callback(json);
 			}

@@ -38,11 +38,13 @@ userService.prototype.addUser = function(subusername, subpassword, subemail, cal
 			};
 			callback(response);
 		}).error(function(e) {
-			callback(e);
+			response = { status: "failed", response: e };
+			callback(response);
 		});
 	}
 	else {
-		callback("error");
+		response = { status: "failed", response: "error" };
+		callback(response);
 	}
 }
 
