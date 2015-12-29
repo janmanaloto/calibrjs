@@ -6,18 +6,23 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var constants = require('./constants.js');
 var session = require('client-sessions');
+var mustacheExpress = require('mustache-express');
 
 var LoginServices = require('./services/LoginServices');
 
 var routes = require('./routes/Home/index');
 var process = require('./routes/process/index');
 var users = require('./routes/User/index');
+var login = require('./routes/Login/index');
+var demos = require('./routes/demos/index');
 
 var app = express();
 
 // view engine setup
+// app.set('view engine', 'jade');
+app.engine('mustache', mustacheExpress());
+app.set('view engine', 'mustache');
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -38,6 +43,8 @@ app.use(session({
 app.use('/', routes);
 app.use('/process', process);
 app.use('/Users', users);
+app.use('/demos', demos);
+app.use('/login', login);
 
 app.use(function(req, res, next) {
   var login = new LoginServices();

@@ -1,5 +1,6 @@
 var connection = require('../connection.js');
-var User = connection.get('users');
+// var User = connection.get('users');
+var User = connection;
 var validator = require('validator');
 var sha1 = require('sha1');
 var session = require('client-sessions');
@@ -10,17 +11,34 @@ function LoginService() {
 }
 
 LoginService.prototype.login = function(req, subusername, subpassword, callback) {
-	User.findOne({ "username": subusername }, function(err, user) {
+	console.log("=================== Start LoginService login ===================");
+	params = [subusername];
+	User.query("SELECT * FROM user WHERE username = ?", params, function(err, user, fields) {
 		if(!user) {
-			callback("Eusername");
+			json = {
+				status: "Eusername",
+				message: "There is an error with your login credentials"
+			}
+			callback(json);
 		}
 		else {
+			user = user[0];
+			console.log(user.password);
 			if(sha1(subpassword) === user.password) {
 				req.session.user = user;
-				callback("success");
+				var json = {
+					status: "success",
+					username: user.username,
+					userId: user.id
+				}
+				callback(json);
 			}
 			else {
-				callback("Epassword");
+				json = {
+					status: "Epassword",
+					message: "Wrong Username/Password combination"
+				}
+				callback(json);
 			}
 		}
 	});
@@ -28,15 +46,17 @@ LoginService.prototype.login = function(req, subusername, subpassword, callback)
 
 LoginService.prototype.sessionStart = function(req,res,next){
 	  if (req.session && req.session.user) {
-	    User.findOne({ username: req.session.user.username }, function(err, user) {
-	      if (user) {
+	  	var params = [req.session.user.username]
+	  	User.query("SELECT * FROM user WHERE username = ?", params, function(err, user, fields) {
+	  		if (user) {
 	        req.user = user;
 	        delete req.user.password; // delete the password from the session
 	        req.session.user = user;  //refresh the session value
 	        // res.locals.user = user;
 	      }
 	      next();
-	    });
+	  	})
+	    
 	  } else {
 	    next();
 	  }
@@ -50,6 +70,11 @@ function requireLogin (req, res, next) {
   }
 };
 
+function isLogged(req) {
+	var logged = req.session.user ? true : false;
+	return logged;
+}
+
 function requireLogout (req, res, next) {
   if (req.session.user) {
     res.send("You cannot visit this without being logged out");
@@ -61,5 +86,6 @@ function requireLogout (req, res, next) {
 module.exports = { 
 	LoginService: LoginService,
 	requireLogin: requireLogin,
+	isLogged: isLogged,
 	requireLogout: requireLogout
 }

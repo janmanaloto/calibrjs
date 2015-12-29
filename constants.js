@@ -6,5 +6,7 @@ function define(name, value) {
 }
 
 define("DATABASE_NAME", "calibrjs");
-define("DATABASE_HOST", "localhost:27017/");
+define("DATABASE_HOST", "localhost");
+define("DATABASE_USERNAME", "root");
+define("DATABASE_PASSWORD", "");
 define("SESSION_SECRET", "ilLacU2mj8p2m3");

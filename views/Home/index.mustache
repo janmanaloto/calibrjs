@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+		<input id="username" name="username" type="text" placeholder="username">
+		<input id="password" name="password" type="password" placeholder="password">
+		<button id="loginBtn">Login</button>
+</body>
+<script type="text/javascript" src="javascripts/thirdParty/jquery.min.js"></script>
+<script type="text/javascript">
+	$('#loginBtn').click(function() {
+		console.log("LOGIN");
+		$.ajax({
+			url: "/process/login",
+			type: "POST",
+			data: {
+				username: $('#username').val(),
+				password: $('#password').val()
+			},
+			success: function(data) {
+				console.log(data);
+			}
+		})
+	});
+</script>
+</html>
