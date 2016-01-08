@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dashboard</title>
+	<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+</head>
+<body>
+	<h1>Welcome {{variable}}</h1>
+	{{#files}}
+		<div>{{filename}}</div>
+	{{/files}}
+	<a href="process/logout">Logout</a>
+	<form id        =  "uploadForm"
+     enctype   =  "multipart/form-data"
+     action    =  "process/upload"
+     method    =  "post"
+     class="dropzone" 
+>
+</form>
+</body>
+<script type="text/javascript" src="/javascripts/thirdParty/dropzone.js"></script>
+</html>

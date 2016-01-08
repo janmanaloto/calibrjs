@@ -20,6 +20,7 @@
     "serve-favicon": "~2.2.1",
     "sha1": "^1.1.1",
     "validator": "^3.40.1",
-    "mysql": "^2.5.4"
+    "mysql": "^2.5.4",
+    "multer": "1.1.0"
   }
 }
